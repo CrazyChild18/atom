@@ -20,7 +20,8 @@ const routes = [
     },
     {
         path: '/login',
-        name: 'login'
+        name: 'login',
+        component: () => import('../views/Login/loginPage'),
     }
 ]
 const router = createRouter({

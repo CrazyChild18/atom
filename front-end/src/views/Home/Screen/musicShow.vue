@@ -1,37 +1,23 @@
 <template>
-  <!--加载缓冲-->
-<!--  <el-table-->
-<!--    height="85vh"-->
-<!--    v-loading="loading"-->
-<!--    element-loading-text="Loading...Please wait and check your network..."-->
-<!--    element-loading-background="rgba(0, 0, 0, 0.8)"-->
-<!--    style="width: 81vw; position: absolute; "-->
-<!--  >-->
-<!--  </el-table>-->
 
   <!--轮播图-->
-  <el-carousel ref="nop" height="85vh" direction="vertical" :autoplay="false" arrow="always" loop="false" trigger="click">
-    <el-carousel-item v-for="item in 16" :key="item">
+  <!--reference: https://element-plus.gitee.io/zh-CN/component/carousel.html-->
+  <div id="btn_up" @click="this.$refs.nop.prev();"><img height="50" src="../../../assets/up.png"></div>
+  <el-carousel ref="nop" height="74vh" direction="vertical" :autoplay="false" arrow="always" loop="false" trigger="click">
+    <el-carousel-item v-for="item in 5" :key="item">
       <div class="btndiv">
-        <div id="btn_up" @click="this.$refs.nop.prev();"><img height="70" src="../../../assets/up.png"></div>
-              <h3>{{ item }}</h3>
-        <div id="btn_down" @click="this.$refs.nop.next();"><img height="70" src="../../../assets/down.png"></div>
+        <h3 style="height: 100%">
+          <MusicContent></MusicContent>
+        </h3>
       </div>
-
-</el-carousel-item>
+    </el-carousel-item>
   </el-carousel>
+  <div id="btn_down" @click="this.$refs.nop.next();"><img height="50" src="../../../assets/down.png"></div>
+
 </template>
 
 <script setup>
-// export default {
-//   data() {
-//     return {
-//         upUrl:require("../../../assets/up.png")
-//      }
-// }
-//   // require upUrl from
-// }
-
+import MusicContent from "@/components/MusicContent";
 </script>
 
 <style scoped>
@@ -55,10 +41,14 @@
 
 #btn_up, #btn_down {
   text-align: center;
-  opacity: 0.75;
-
+  opacity: 0.5;
 }
 #btn_down {
-  margin: 20vh;
+  margin-top: 5px;
 }
+
+#btn_up{
+margin-bottom: 5px;
+}
+
 </style>
