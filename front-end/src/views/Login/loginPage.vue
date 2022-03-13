@@ -41,7 +41,7 @@
             </el-form-item>
             <!--按钮区域-->
             <el-form-item class="btns">
-              <el-button type="primary" @click="login">登录</el-button>
+              <el-button type="primary" @click="submitForm">登录</el-button>
               <el-button type="info" @click="resetLoginForm">重置</el-button>
             </el-form-item>
           </el-form>
@@ -108,8 +108,29 @@ export default {
       // Element-UI 中的 resetFields 方法重置
       this.$refs.loginFormRef.resetFields()
     },
-    login () {
-
+    // 用到了vue的element组件库，使用fetch解决了vue前台服务器和数据库后台服务器的跨域问题
+    // 登录账号作为sessionStorage的值
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        // 后台的验证
+        fetch("/api/login",{
+          method:"post",
+          headers:{
+            'content-type':'application/x-www-form-urlencoded'
+          },
+          body:`name=${this.loginForm.username}&pass=${this.loginForm.password}`
+        }).then((r) => {
+          return r.json()  //
+        }).then((data) => {
+          if (data.status == 'ok'){
+              sessionStorage.setItem('accessToken',data.session)
+              this.$router.push({name:'indexPage'})
+          }else{
+              this.$message.error(data.info);
+              return false;
+          }
+        })
+      });
     }
   }
 }
