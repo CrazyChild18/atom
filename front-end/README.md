@@ -2,11 +2,13 @@
 
 ## Project setup
 ```
+cd front-end
 npm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
+cd front-end
 npm run serve
 ```
 

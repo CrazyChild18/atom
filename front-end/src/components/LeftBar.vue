@@ -32,9 +32,9 @@
           <el-icon><share /></el-icon>
           <template #title>Share</template>
         </el-menu-item>
-        <el-menu-item index="5">
+        <el-menu-item index="/login">
           <el-icon><circle-close-filled /></el-icon>
-          <template #title>Log out</template>
+          <template #title>Log in</template>
         </el-menu-item>
       </el-menu>
     </el-aside>

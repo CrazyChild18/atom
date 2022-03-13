@@ -22,16 +22,30 @@
     </vue-particles>
     <div class="welcome-page-center">
       <div class="welcome-page-content">
-        <div class="welcome-page-title">Register</div>
-        <form novalidate>
-    <label for="username">用户名</label>
-    <input type="text" placeholder="Please Enter your username" id="username" v-model="username">
-    <br>
-    <label for="password">密码</label>
-    <input type="password" placeholder="Please Enter your password" id="password" v-model="password">
-    <br>
-    <button type="button" v-on:click="register">Register</button>
-  </form>
+        <div class="welcome-page-title">Music-Hub</div>
+        <div class="nav-item-group">
+          <!--登录表单区域-->
+          <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
+            <!--用户名-->
+            <el-form-item prop="username" class="username">
+              <el-input
+                  v-model="loginForm.username"
+                  placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <!--密码-->
+            <el-form-item prop="password" class="password">
+              <el-input
+                  v-model="loginForm.password"
+                  placeholder="请输入密码"
+                  type="password"></el-input>
+            </el-form-item>
+            <!--按钮区域-->
+            <el-form-item class="btns">
+              <el-button type="primary" @click="login">登录</el-button>
+              <el-button type="info" @click="resetLoginForm">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
