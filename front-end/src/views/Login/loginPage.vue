@@ -22,16 +22,28 @@
     </vue-particles>
     <div class="welcome-page-center">
       <div class="welcome-page-content">
-        <div class="welcome-page-title">Register</div>
-        <form novalidate>
-    <label for="username">用户名</label>
-    <input type="text" placeholder="Please Enter your username" id="username" v-model="username">
-    <br>
-    <label for="password">密码</label>
-    <input type="password" placeholder="Please Enter your password" id="password" v-model="password">
-    <br>
-    <button type="button" v-on:click="register">Register</button>
-  </form>
+        <div class="welcome-page-title">Login</div>
+        <!--登录表单区域-->
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
+          <!--用户名-->
+          <el-form-item prop="username">
+            <el-input
+                v-model="loginForm.username"
+                prefix-icon=""></el-input>
+          </el-form-item>
+          <!--密码-->
+          <el-form-item prop="password">
+            <el-input
+                v-model="loginForm.password"
+                prefix-icon=""
+                type="password"></el-input>
+          </el-form-item>
+          <!--按钮区域-->
+          <el-form-item class="btns">
+            <el-button type="primary" @click="login">登录</el-button>
+            <el-button type="info" @click="resetLoginForm">重置</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
@@ -90,7 +102,6 @@ export default {
     },
     // 点击重置按钮
     resetLoginForm () {
-      // console.log(this)
       // Element-UI 中的 resetFields 方法重置
       this.$refs.loginFormRef.resetFields()
     },
@@ -108,13 +119,13 @@ export default {
   width: 100%;
   padding: 5% 15% 3%;
   box-sizing: border-box;
-  background: transparent !important;
+  //background: transparent !important;
 }
 .username{
-  background: transparent !important;
+  //background: transparent !important;
 }
 .password{
-  background: transparent !important;
+  //background: transparent !important;
   margin-top: 6%;
 }
 .btns {

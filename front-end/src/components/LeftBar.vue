@@ -7,7 +7,7 @@
         <!--用户头像-->
         <div class="demo-basic--circle">
         <div class="block" style="margin-left: 15%; margin-top: 15%">
-          <el-avatar :size="70" :src="circleUrl"></el-avatar>
+          <el-avatar :size="70" :src="circleUrl" @click="open"></el-avatar>
         </div>
       </div>
       </div>
@@ -47,6 +47,7 @@ import {
   Share,
   CircleCloseFilled,
 } from '@element-plus/icons-vue'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 import { reactive, toRefs } from 'vue'
 
@@ -59,6 +60,28 @@ const state = reactive({
 })
 
 const { circleUrl } = toRefs(state)
+
+const open = () => {
+  ElMessageBox.prompt('Please input your e-mail', 'Tip', {
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel',
+    inputPattern:
+      /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+    inputErrorMessage: 'Invalid Email',
+  })
+    .then(({ value }) => {
+      ElMessage({
+        type: 'success',
+        message: `Your email is:${value}`,
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Input canceled',
+      })
+    })
+}
 </script>
 
 <style>
