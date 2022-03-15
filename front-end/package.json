@@ -16,8 +16,10 @@
     "popper.js": "^1.16.1",
     "s": "^1.0.0",
     "vue": "^3.2.13",
+    "vue-fullpage.js": "^0.1.7",
     "vue-particles": "^1.0.9",
     "vue-router": "^4.0.13",
+    "vue-slidepage": "^1.0.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

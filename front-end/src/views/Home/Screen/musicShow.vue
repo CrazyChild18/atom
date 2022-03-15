@@ -4,7 +4,7 @@
   <!--reference: https://element-plus.gitee.io/zh-CN/component/carousel.html-->
   <div id="btn_up" @click="this.$refs.nop.prev();"><img height="50" src="../../../assets/up.png"></div>
   <el-carousel ref="nop" height="74vh" direction="vertical" :autoplay="false" arrow="always" loop="false" trigger="click">
-    <el-carousel-item v-for="item in 5" :key="item">
+    <el-carousel-item v-for="item in 2" :key="item">
       <div class="btndiv">
         <h3 style="height: 100%">
           <MusicContent></MusicContent>

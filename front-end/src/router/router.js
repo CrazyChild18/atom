@@ -9,7 +9,7 @@ const routes = [
             {
                 path: '/music',
                 name: 'music',
-                component: () => import('../views/Home/Screen/musicShow')
+                component: () => import('../views/Home/Screen/musicShow2')
             },
             {
                 path: '/info',
