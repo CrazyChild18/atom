@@ -1,5 +1,5 @@
 <template>
-    <el-aside width="200px">
+    <el-aside width="220px">
       <div style="margin-left: 17%; height: 20%; margin-top: 30%;">
         <!--标题-->
         <h2 style="display: inline">Music-</h2>

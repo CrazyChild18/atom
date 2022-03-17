@@ -9,12 +9,17 @@ const routes = [
             {
                 path: '/music',
                 name: 'music',
-                component: () => import('../views/Home/Screen/musicShow2')
+                component: () => import('../views/Home/Screen/musicShow')
             },
             {
                 path: '/info',
                 name: 'info',
                 component: () => import('../views/Home/UserInfo/userInfo')
+            },
+            {
+                path: '/musicDetail',
+                name: 'musicDetail',
+                component: () => import('../views/Home/Screen/musicDetail')
             }
         ]
     },
