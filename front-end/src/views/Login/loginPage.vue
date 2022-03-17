@@ -22,28 +22,49 @@
     </vue-particles>
     <div class="welcome-page-center">
       <div class="welcome-page-content">
+        <alert
+          v-if="sharedState.is_new"
+          v-bind:variant="alertVariant"
+          v-bind:message="alertMessage">
+        </alert>
         <div class="welcome-page-title">Login</div>
         <!--登录表单区域-->
-        <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
+        <el-form  ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
           <!--用户名-->
-          <el-form-item prop="username">
-            <el-input
-                v-model="loginForm.username"
-                prefix-icon=""></el-input>
-          </el-form-item>
-          <!--密码-->
-          <el-form-item prop="password">
-            <el-input
-                v-model="loginForm.password"
-                prefix-icon=""
-                type="password"></el-input>
-          </el-form-item>
+<!--          <el-form-item prop="username">-->
+<!--            <el-input-->
+<!--                v-model="loginForm.username"-->
+<!--                prefix-icon=""></el-input>-->
+<!--          </el-form-item>-->
+<!--          &lt;!&ndash;密码&ndash;&gt;-->
+<!--          <el-form-item prop="password">-->
+<!--            <el-input-->
+<!--                v-model="loginForm.password"-->
+<!--                prefix-icon=""-->
+<!--                type="password"></el-input>-->
+<!--          </el-form-item>-->
+          <form @submit.prevent="onSubmit">
+          <div class="form-group" v-bind:class="{'u-has-error-v1': loginForm.usernameError}">
+            <label for="username">Username</label>
+            <input type="text" v-model="loginForm.username" class="form-control" id="username" placeholder="">
+            <small class="form-control-feedback" v-show="loginForm.usernameError">{{ loginForm.usernameError }}</small>
+          </div>
+          <div class="form-group" v-bind:class="{'u-has-error-v1': loginForm.passwordError}">
+            <label for="password">Password</label>
+            <input type="password" v-model="loginForm.password" class="form-control" id="password" placeholder="">
+            <small class="form-control-feedback" v-show="loginForm.passwordError">{{ loginForm.passwordError }}</small>
+          </div>
           <!--按钮区域-->
           <el-form-item class="btns">
-            <el-button type="primary" @click="login">登录</el-button>
+            <button type="submit" class="btn btn-primary">登录</button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
+<!--            <button href="/register">注册</button>-->
+            <p>  New User? <router-link to="/register">Click to Register!</router-link></p>
           </el-form-item>
+            </form>
         </el-form>
+<!--        <el-menu-item index="/register">注册-->
+<!--        <p index="">New User? >Click to Register!</p>-->
       </div>
     </div>
   </div>
@@ -51,62 +72,82 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Alert from './Alert'
+import store from '../../store.js'
+
 export default {
-  name: 'loginPage',
-  data() {
+  name: 'login',  //this is the name of the component
+  components: {
+    alert: Alert
+  },
+  data () {
     return {
-      // 这是登录表单的数据绑定对象
+      sharedState: store.state,
+      alertVariant: 'info',
+      alertMessage: 'Congratulations, you are now a registered user !',
       loginForm: {
-        username: 'admin',
-        password: '123456'
-      },
-      // 这是表单规则的对象
-      loginFormRules: {
-        // 验证用户名是否合法
-        username: [
-          {
-            required: true,
-            message: '请输入登录名称',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 10,
-            message: '长度在 3 到 10 个字符',
-            trigger: 'blur'
-          }
-        ],
-        // 验证密码是否合法
-        password: [
-          {
-            required: true,
-            message: '请输入密码',
-            trigger: 'blur'
-          },
-          {
-            min: 6,
-            max: 15,
-            message: '长度在 6 到 15 个字符',
-            trigger: 'blur'
-          }
-        ]
-      },
-      topNav: [{
-        title: "Welcome to Login",
-      }]
+        username: '',
+        password: '',
+        submitted: false,  // 是否点击了 submit 按钮
+        errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
+        usernameError: null,
+        passwordError: null
+      }
     }
   },
   methods: {
-    jumpSystem(path) {
-      window.open(path);
-    },
-    // 点击重置按钮
-    resetLoginForm () {
-      // Element-UI 中的 resetFields 方法重置
-      this.$refs.loginFormRef.resetFields()
-    },
-    login () {
-      
+    onSubmit (e) {
+      this.loginForm.submitted = true  // 先更新状态
+      this.loginForm.errors = 0
+
+      if (!this.loginForm.username) {
+        this.loginForm.errors++
+        this.loginForm.usernameError = 'Username required.'
+      } else {
+        this.loginForm.usernameError = null
+      }
+
+      if (!this.loginForm.password) {
+        this.loginForm.errors++
+        this.loginForm.passwordError = 'Password required.'
+      } else {
+        this.loginForm.passwordError = null
+      }
+
+      if (this.loginForm.errors > 0) {
+        // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
+        return false
+      }
+
+      const path = 'http://localhost:5000/api/tokens'
+      // axios 实现Basic Auth需要在config中设置 auth 这个属性即可
+      axios.post(path, {}, {
+        auth: {
+          'username': this.loginForm.username,
+          'password': this.loginForm.password
+        }
+      }).then((response) => {
+          // handle success
+          window.localStorage.setItem('atom-token', response.data.token)
+          store.resetNotNewAction()
+          store.loginAction()
+
+          if (typeof this.$route.query.redirect == 'undefined') {
+            this.$router.push('/')
+          } else {
+            this.$router.push(this.$route.query.redirect)
+          }
+        })
+        .catch((error) => {
+          // handle error
+          if (error.response.status == 401) {
+            this.loginForm.usernameError = 'Invalid username or password.'
+            this.loginForm.passwordError = 'Invalid username or password.'
+          } else {
+            console.log(error.response)
+          }
+        })
     }
   }
 }

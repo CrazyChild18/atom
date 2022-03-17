@@ -20,6 +20,7 @@
     "vue-particles": "^1.0.9",
     "vue-router": "^4.0.13",
     "vue-slidepage": "^1.0.0",
+    "vue-toasted": "^1.1.28",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

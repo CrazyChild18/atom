@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container >
     <!--左侧导航-->
     <LeftBar/>
     <!--右侧主体-->

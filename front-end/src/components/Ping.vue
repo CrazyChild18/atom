@@ -5,17 +5,18 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+
 export default {
-  name: "Ping",
+  name: 'Ping',
   data() {
     return {
-      msg: 'Hello world!',
-    };
+      msg: ''
+    }
   },
   methods: {
-    getMessage() {
-      const path = 'http://localhost:5000/ping';
+    getMessage () {
+      const path = 'http://localhost:5000/api/ping'//前端是启动在8080端口，后端是启动在5000端口，属于跨域访问
       axios.get(path)
         .then((res) => {
           this.msg = res.data;
@@ -23,15 +24,14 @@ export default {
         .catch((error) => {
           // eslint-disable-next-line
           console.error(error);
-        });
-    },
+        })
+    }
   },
-  created() {
-    this.getMessage();
-  },
-};
+  created () {
+    this.getMessage()
+  }
+}
 </script>
-
 <style scoped>
 
 </style>

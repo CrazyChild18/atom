@@ -4,6 +4,9 @@
         <!--标题-->
         <h2 style="display: inline">Music-</h2>
         <h2 style="display: inline; color: orange;background-color: black">Hub</h2>
+<!--        <li class="nav-item">-->
+<!--          <router-link v-bind:to="{ name: 'Profile', params: { id: sharedState.user_id }}" class="nav-link">Profile</router-link>-->
+<!--        </li>-->
         <!--用户头像-->
         <div class="demo-basic--circle">
         <div class="block" style="margin-left: 15%; margin-top: 15%">
@@ -34,13 +37,32 @@
         </el-menu-item>
         <el-menu-item index="/login">
           <el-icon><circle-close-filled /></el-icon>
-          <template #title>Log in</template>
+          <template #title>Logout
+<!--          <a v-on:click="handlerLogout" class="nav-link" href="#">Logout</a>-->
+          </template>
         </el-menu-item>
+
       </el-menu>
     </el-aside>
 </template>
 
-<script setup>
+<script>
+import store from '../store.js'
+
+export default {
+  name: 'Leftbar',  //this is the name of the component
+  data () {
+    return {
+      sharedState: store.state
+    }
+  },
+  methods: {
+    handlerLogout (e) {
+      store.logoutAction()
+      this.$router.push('/login')
+    }
+  }
+}
 import {
   Monitor,
   Avatar,

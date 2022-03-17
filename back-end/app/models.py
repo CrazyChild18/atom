@@ -2,7 +2,8 @@ import base64
 import os
 from datetime import datetime, timedelta
 
-from flask import url_for
+import jwt
+from flask import url_for, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
@@ -65,9 +66,8 @@ class User(PaginatedAPIMixin, db.Model):
         if new_user and 'password' in data:
             self.set_password(data['password'])
 
-    token = db.Column(db.String(32), index=True, unique=True)
-    token_expiration = db.Column(db.DateTime)
-    ...
+    # token = db.Column(db.String(32), index=True, unique=True)
+    # token_expiration = db.Column(db.DateTime)
 
     def get_token(self, expires_in=3600):
         now = datetime.utcnow()
@@ -87,3 +87,30 @@ class User(PaginatedAPIMixin, db.Model):
         if user is None or user.token_expiration < datetime.utcnow():
             return None
         return user
+
+    def get_jwt(self, expires_in=600):
+        now = datetime.utcnow()
+        payload = {
+            'user_id': self.id,
+            # 'name': self.name if self.name else self.username,
+            'name': self.username,
+            'exp': now + timedelta(seconds=expires_in),
+            'iat': now
+        }
+        # print(jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256'))
+        return jwt.encode(
+            payload,
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256')
+
+    @staticmethod
+    def verify_jwt(token):
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'])
+        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError) as e:
+            # Token过期，或被人修改，那么签名验证也会失败
+            return None
+        return User.query.get(payload.get('user_id'))
