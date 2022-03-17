@@ -35,12 +35,12 @@
           <el-icon><share /></el-icon>
           <template #title>Share</template>
         </el-menu-item>
-        <el-menu-item index="/login">
-          <el-icon><circle-close-filled /></el-icon>
-          <template #title>Logout
-<!--          <a v-on:click="handlerLogout" class="nav-link" href="#">Logout</a>-->
-          </template>
-        </el-menu-item>
+<!--        <el-menu-item index="/login">-->
+<!--          <el-icon><circle-close-filled /></el-icon>-->
+<!--          <template #title>Login-->
+<!--&lt;!&ndash;          <a v-on:click="handlerLogout" class="nav-link" href="#">Logout</a>&ndash;&gt;-->
+<!--          </template>-->
+<!--        </el-menu-item>-->
 
       </el-menu>
     </el-aside>

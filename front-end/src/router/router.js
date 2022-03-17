@@ -22,9 +22,9 @@ const routes = [
                 path: '/info/:id',
                 name: 'info',
                 component: () => import('../views/Home/UserInfo/userInfo'),
-                meta: {
-                    requiresAuth: true
-                },
+                // meta: {
+                //     requiresAuth: true
+                // },
 
             }
         ]
