@@ -9,7 +9,7 @@ This is the bdic graduation design course group project
 
 前端部分的操作请参考front-end/README.md
 
-后端部分操作如下：
+后端部分的操作如下：
 
 cd back-end
 
