@@ -13,7 +13,7 @@ const routes = [
             {
                 path: '/music/',
                 name: 'music',
-                component: () => import('../views/Home/Screen/musicShow2'),
+                component: () => import('../views/Home/Screen/musicShow'),
         //         meta: {
         //     requiresAuth: true
         // },
@@ -25,7 +25,11 @@ const routes = [
                 // meta: {
                 //     requiresAuth: true
                 // },
-
+            },
+            {
+                path: '/musicDetail',
+                name: 'musicDetail',
+                component: () => import('../views/Home/Screen/musicDetail')
             }
         ]
     },
